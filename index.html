@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Середні значення рядків</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            margin-top: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Обчислення середніх значень рядків</h1>
+    <p>Введіть двовимірний масив чисел (приклад: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]):</p>
+    <textarea id="inputArray" rows="4" cols="50">[[1, 2, 3], [4, 5, 6], [7, 8, 9]]</textarea><br>
+    <button id="calculateButton">Обчислити середні значення</button>
+    <div id="result"></div>
+
+    <script>
+        function row_averages(arrays) {
+            return arrays.map(row => {
+                if (row.length === 0) return 0; // Повертаємо 0 для пустих масивів
+                const sum = row.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                return sum / row.length; // Обчислюємо середнє
+            });
+        }
+
+        document.getElementById("calculateButton").addEventListener("click", function() {
+            const input = document.getElementById("inputArray").value;
+            let arrays;
+
+            try {
+                arrays = JSON.parse(input);
+                if (!Array.isArray(arrays)) {
+                    throw new Error("Введіть дійсний двовимірний масив.");
+                }
+            } catch (error) {
+                document.getElementById("result").innerText = "Помилка: " + error.message;
+                return;
+            }
+
+            const averages = row_averages(arrays);
+            document.getElementById("result").innerText = "Середні значення: " + averages.join(", ");
+        });
+    </script>
+</body>
+</html>
